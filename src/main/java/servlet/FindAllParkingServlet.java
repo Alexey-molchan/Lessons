@@ -19,9 +19,9 @@ public class FindAllParkingServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final List<Parking> list = ParkingDao.getParking();
-
-        req.setAttribute();
+//        final List<Parking> list = ParkingDao.getParking();
+//
+//        req.setAttribute();
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("parking.jsp");
         requestDispatcher.forward(req, resp);

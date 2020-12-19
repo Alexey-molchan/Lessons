@@ -26,7 +26,7 @@ public class UserService implements IUserService {
     private Logging logging = Logging.getInstance();
 
     @Override
-    public void create(HttpServletRequest req) throws BadCredentialsException {
+    public void create(HttpServletRequest req, HttpServletResponse resp) throws BadCredentialsException {
         final String password = req.getParameter("password");
         final String login = req.getParameter("login");
         if (!Utils.stringIsEmpty(password) && !Utils.stringIsEmpty(login)) {

@@ -1,6 +1,5 @@
 package servlet;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import dao.UserDao;
 import dao.impl.UserDaoFromDBImpl;
 import lib.exception.BadCredentialsException;
@@ -9,9 +8,10 @@ import service.impl.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 public class CreateAdminServlet extends HttpServlet {
 
@@ -21,17 +21,6 @@ public class CreateAdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        String tomcat = req.getUserPrincipal().getName();
-        String loginHash = new String(BCrypt.with(BCrypt.Version.VERSION_2B).hash(13, tomcat.toCharArray()));
-        String hash = loginHash + new Date().getTime();
-        session.setAttribute("UID", hash);
-        session.setMaxInactiveInterval(30 * 60);
-
-
-        Cookie cookie = new Cookie("UID", hash);
-        cookie.setMaxAge(30 * 60);
-        resp.addCookie(cookie);
         RequestDispatcher dispatcher = req.getRequestDispatcher("createadmin.jsp");
         dispatcher.forward(req, resp);
     }
@@ -39,7 +28,7 @@ public class CreateAdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            userService.create(req);
+            userService.create(req, resp);
             resp.sendRedirect(req.getContextPath() + "/alluser");
         } catch (BadCredentialsException e) {
             req.setAttribute("error", e.getMessage());

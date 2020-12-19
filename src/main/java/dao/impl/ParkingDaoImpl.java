@@ -121,10 +121,10 @@ public class ParkingDaoImpl implements ParkingDao {
         try(Statement statement = connection.createStatement()) {
 
             final ResultSet rs = statement.executeQuery("select * from parking where id = '" + id + "'");
-            if (rs.next()){
-                ParkingArea parkingArea = new ParkingArea();
-                parking = new Parking(rs.getLong("id"), rs.getString("name"), parkingArea);
-            }
+//            if (rs.next()){
+//                ParkingArea parkingArea = new ParkingArea();
+//                parking = new Parking(rs.getLong("id"), rs.getString("name"), parkingArea);
+//            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
